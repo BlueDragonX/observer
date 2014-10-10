@@ -94,12 +94,12 @@ func (h *Handler) Get() (metrics api.Metrics, err error) {
 	}
 
 	now := time.Now().UTC()
-	addInt := func(name string, intval int64) {
-		metrics.Add(name, fmt.Sprintf("%d", intval), now, nil)
+	addBytes := func(name string, intval int64) {
+		metrics.Add(name, float64(intval), api.UNIT_BYTES, now, nil)
 	}
 
 	addPct := func(name string, pctval float64) {
-		metrics.Add(name, fmt.Sprintf("%.2f", pctval), now, nil)
+		metrics.Add(name, pctval, api.UNIT_PERCENT, now, nil)
 	}
 
 	var memTotal, memFree int64
@@ -109,8 +109,8 @@ func (h *Handler) Get() (metrics api.Metrics, err error) {
 	if memFree, err = getInt("MemFree"); err != nil {
 		return
 	}
-	addInt("MemoryTotal", memTotal)
-	addInt("MemoryFree", memFree)
+	addBytes("MemoryTotal", memTotal)
+	addBytes("MemoryFree", memFree)
 	addPct("MemoryUtilization", 100*(float64(memTotal-memFree))/float64(memTotal))
 
 	if h.swap {
@@ -121,8 +121,8 @@ func (h *Handler) Get() (metrics api.Metrics, err error) {
 		if swapFree, err = getInt("SwapFree"); err != nil {
 			return
 		}
-		addInt("SwapTotal", swapTotal)
-		addInt("SwapFree", swapFree)
+		addBytes("SwapTotal", swapTotal)
+		addBytes("SwapFree", swapFree)
 		addPct("SwapUtilization", 100*(float64(swapTotal-swapFree))/float64(swapTotal))
 	}
 	return

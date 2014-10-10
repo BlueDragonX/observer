@@ -55,11 +55,11 @@ func (h *Handler) Get() (metrics api.Metrics, err error) {
 
 	now := time.Now().UTC()
 	metadata := map[string]string{"Path": h.path}
-	metrics.Add("DiskBytesTotal", fmt.Sprintf("%d", blockSize*totalBlocks), now, metadata)
-	metrics.Add("DiskBytesFree", fmt.Sprintf("%d", blockSize*freeBlocks), now, metadata)
+	metrics.Add("DiskBytesTotal", float64(blockSize*totalBlocks), api.UNIT_BYTES, now, metadata)
+	metrics.Add("DiskBytesFree", float64(blockSize*freeBlocks), api.UNIT_BYTES, now, metadata)
 
 	pctUsed := 100 * float64(totalBlocks-freeBlocks) / float64(totalBlocks)
-	metrics.Add("DiskBytesUtilization", fmt.Sprintf("%.2f", pctUsed), now, metadata)
+	metrics.Add("DiskBytesUtilization", pctUsed, api.UNIT_PERCENT, now, metadata)
 	return
 }
 

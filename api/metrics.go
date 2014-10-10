@@ -2,27 +2,26 @@ package api
 
 import (
 	"encoding/json"
-	"strconv"
 	"time"
+)
+
+const (
+	UNIT_BYTES = "bytes"
+	UNIT_BYTES_PER_SECOND = "bytes/second"
+	UNIT_BITS = "bits"
+	UNIT_BITS_PER_SECOND = "bits/second"
+	UNIT_SECONDS = "seconds"
+	UNIT_COUNT = "count"
+	UNIT_COUNT_PER_SECOND = "count/second"
+	UNIT_PERCENT = "percent"
 )
 
 type Metric struct {
 	Name      string
-	Value     string
+	Value     float64
+	Unit      string
 	Timestamp time.Time
 	Metadata  map[string]string
-}
-
-// Convert the metric value to an int.
-func (m *Metric) Int() (val int64, err error) {
-	val, err = strconv.ParseInt(m.Value, 10, 64)
-	return
-}
-
-// Convert the metric value to a float.
-func (m *Metric) Float(val float64, err error) {
-	val, err = strconv.ParseFloat(m.Value, 64)
-	return
 }
 
 // Add metadata values to the metric if they do not already exist.
@@ -53,8 +52,8 @@ func (m *Metrics) UnmarshalJSON(raw []byte) error {
 }
 
 // Add a single metric to the collection.
-func (m *Metrics) Add(name, value string, timestamp time.Time, metadata map[string]string) {
-	m.metrics = append(m.metrics, &Metric{name, value, timestamp, metadata})
+func (m *Metrics) Add(name string, value float64, unit string, timestamp time.Time, metadata map[string]string) {
+	m.metrics = append(m.metrics, &Metric{name, value, unit, timestamp, metadata})
 }
 
 // Append other metrics to this metrics struct.

@@ -2,7 +2,6 @@ package main
 
 import (
 	"../../api"
-	"fmt"
 	"log"
 	"math/rand"
 	"time"
@@ -17,7 +16,7 @@ func (h *Handler) Configure(config api.Config) error {
 
 // Get a random integer.
 func (h *Handler) Get() (metrics api.Metrics, err error) {
-	metrics.Add("Random", fmt.Sprintf("%d", rand.Int63()), time.Now().UTC(), nil)
+	metrics.Add("RandomCount", float64(rand.Int31()), api.UNIT_COUNT, time.Now().UTC(), nil)
 	return
 }
 
@@ -27,9 +26,9 @@ func (h *Handler) Put(metrics api.Metrics) error {
 	log.Printf("received %d metrics:\n", len(items))
 	for _, metric := range items {
 		if metric.Metadata == nil || len(metric.Metadata) == 0 {
-			log.Printf("  %s: %s\n", metric.Name, metric.Value)
+			log.Printf("  %s: %0.3f %s\n", metric.Name, metric.Value, metric.Unit)
 		} else {
-			log.Printf("  %s: %s (%v)\n", metric.Name, metric.Value, metric.Metadata)
+			log.Printf("  %s: %0.3f %s (%v)\n", metric.Name, metric.Value, metric.Unit, metric.Metadata)
 		}
 	}
 	return nil

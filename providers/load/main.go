@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -43,9 +44,23 @@ func (h *Handler) Get() (metrics api.Metrics, err error) {
 	}
 
 	now := time.Now().UTC()
-	metrics.Add("LoadAvg1", parts[0], now, nil)
-	metrics.Add("LoadAvg5", parts[1], now, nil)
-	metrics.Add("LoadAvg10", parts[2], now, nil)
+	add := func(name, val string) error {
+		floatval, err := strconv.ParseFloat(val, 64)
+		if err == nil {
+			metrics.Add(name, floatval, api.UNIT_COUNT, now, nil)
+		}
+		return err
+	}
+
+	if err = add("LoadAvg1", parts[0]); err != nil {
+		return
+	}
+	if err = add("LoadAvg5", parts[1]); err != nil {
+		return
+	}
+	if err = add("LoadAvg10", parts[2]); err != nil {
+		return
+	}
 	return
 }
 
