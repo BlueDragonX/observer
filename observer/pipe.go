@@ -29,7 +29,29 @@ func NewPipe(name string, interval time.Duration, sources []*Source, sinks []*Si
 
 // Run the pipe.
 func (p *Pipe) Start() {
+	execute := func() {
+		var metrics api.Metrics
+		for _, source := range p.sources {
+			if sourceMetrics, err := source.Get(); err == nil {
+				metrics.Append(sourceMetrics)
+			} else {
+				log.Printf("%s:%s get error: %s\n", p.Name, source.Name, err)
+			}
+		}
+
+		for _, metric := range metrics.Items() {
+			metric.Underlay(p.metadata)
+		}
+
+		for _, sink := range p.sinks {
+			if err := sink.Put(metrics); err != nil {
+				log.Printf("%s:%s put error: %s\n", p.Name, sink.Name, err)
+			}
+		}
+	}
+
 	go func() {
+		execute()
 	Loop:
 		for {
 			select {
@@ -38,24 +60,7 @@ func (p *Pipe) Start() {
 				close(res)
 				break Loop
 			case <-time.Tick(p.interval):
-				var metrics api.Metrics
-				for _, source := range p.sources {
-					if sourceMetrics, err := source.Get(); err == nil {
-						metrics.Append(sourceMetrics)
-					} else {
-						log.Printf("%s:%s get error: %s\n", p.Name, source.Name, err)
-					}
-				}
-
-				for _, metric := range metrics.Items() {
-					metric.Underlay(p.metadata)
-				}
-
-				for _, sink := range p.sinks {
-					if err := sink.Put(metrics); err != nil {
-						log.Printf("%s:%s put error: %s\n", p.Name, sink.Name, err)
-					}
-				}
+				execute()
 			}
 		}
 	}()
