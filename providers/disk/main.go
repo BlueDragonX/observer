@@ -53,10 +53,13 @@ func (h *Handler) Get() (metrics api.Metrics, err error) {
 		return
 	}
 
+	gbTotal := float64(blockSize*totalBlocks)/1073741824 
+	gbFree := float64(blockSize*freeBlocks)/1073741824
+
 	now := time.Now().UTC()
 	metadata := map[string]string{"Path": h.path}
-	metrics.Add("DiskBytesTotal", float64(blockSize*totalBlocks), api.UNIT_BYTES, now, metadata)
-	metrics.Add("DiskBytesFree", float64(blockSize*freeBlocks), api.UNIT_BYTES, now, metadata)
+	metrics.Add("DiskSpaceTotal", gbTotal, api.UNIT_GIGABYTES, now, metadata)
+	metrics.Add("DiskSpaceFree", gbFree, api.UNIT_GIGABYTES, now, metadata)
 
 	pctUsed := 100 * float64(totalBlocks-freeBlocks) / float64(totalBlocks)
 	metrics.Add("DiskBytesUtilization", pctUsed, api.UNIT_PERCENT, now, metadata)
