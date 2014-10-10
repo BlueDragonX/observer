@@ -132,9 +132,9 @@ func (h *Handler) Put(metrics api.Metrics) (err error) {
 		cwMetric := cloudwatch.MetricDatum{
 			Dimensions: dims,
 			MetricName: metric.Name,
-			Timestamp: metric.Timestamp,
-			Unit: unit,
-			Value: metric.Value,
+			Timestamp:  metric.Timestamp,
+			Unit:       unit,
+			Value:      metric.Value,
 		}
 		cwMetrics = append(cwMetrics, cwMetric)
 	}

@@ -7,12 +7,12 @@ import (
 )
 
 type Pipe struct {
-	Name string
+	Name     string
 	interval time.Duration
-	sources []*Source
-	sinks []*Sink
+	sources  []*Source
+	sinks    []*Sink
 	metadata map[string]string
-	stop chan chan interface{}
+	stop     chan chan interface{}
 }
 
 // Create a new pipe with the provided name and configuration.

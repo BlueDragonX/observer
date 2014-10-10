@@ -1,12 +1,12 @@
 package main
 
 import (
-	"syscall"
 	"../config"
 	"flag"
 	"log"
 	"os"
 	"os/signal"
+	"syscall"
 )
 
 func main() {

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"../api"
 	"../config"
 	"errors"
+	"fmt"
 )
 
 type getResponse struct {
@@ -28,7 +28,7 @@ func NewSource(name string, config config.Provider) (source *Source, err error) 
 		err = fmt.Errorf("source %s has no provider", name)
 	} else {
 		var path string
-		var ctrl *api.Controller 
+		var ctrl *api.Controller
 
 		if path, err = lookupProvider(config.Provider); err != nil {
 			return

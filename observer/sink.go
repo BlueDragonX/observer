@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"../api"
 	"../config"
+	"fmt"
 )
 
 type putRequest struct {
-	metrics api.Metrics
+	metrics  api.Metrics
 	response chan error
 }
 

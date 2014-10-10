@@ -7,12 +7,12 @@ import (
 // Configuration for a single provider.
 type Provider struct {
 	Provider string
-	Config map[string]interface{}
+	Config   map[string]interface{}
 }
 
-// Marshal a Provider into YAML. 
+// Marshal a Provider into YAML.
 func (p *Provider) MarshalYAML() (interface{}, error) {
-	data := make(map[string]interface{}, len(p.Config) + 1)
+	data := make(map[string]interface{}, len(p.Config)+1)
 	data["provider"] = p.Provider
 	for key, value := range p.Config {
 		data[key] = value

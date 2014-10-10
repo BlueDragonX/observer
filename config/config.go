@@ -8,9 +8,9 @@ import (
 // Top level configuration object.
 type Config struct {
 	Defaults Defaults
-	Sources Providers
-	Sinks Providers
-	Pipes Pipes
+	Sources  Providers
+	Sinks    Providers
+	Pipes    Pipes
 }
 
 // Create a new configuration object populated with defaults.

@@ -29,7 +29,7 @@ func (m *Message) MarshalJSON() (raw []byte, err error) {
 		msg := struct {
 			Type    string
 			Payload Config
-		} {
+		}{
 			m.Type,
 			Config(m.Payload.(map[string]interface{})),
 		}
@@ -40,7 +40,7 @@ func (m *Message) MarshalJSON() (raw []byte, err error) {
 		msg := struct {
 			Type    string
 			Payload Metrics
-		} {
+		}{
 			m.Type,
 			m.Payload.(Metrics),
 		}
@@ -49,7 +49,7 @@ func (m *Message) MarshalJSON() (raw []byte, err error) {
 		msg := struct {
 			Type    string
 			Payload string
-		} {
+		}{
 			m.Type,
 			(m.Payload.(error)).Error(),
 		}
@@ -58,7 +58,7 @@ func (m *Message) MarshalJSON() (raw []byte, err error) {
 		msg := struct {
 			Type    string
 			Payload interface{}
-		} {
+		}{
 			m.Type,
 			m.Payload,
 		}

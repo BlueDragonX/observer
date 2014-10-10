@@ -17,7 +17,7 @@ func lookupProvider(name string) (path string, err error) {
 	check := func(path string) (err error) {
 		var fi os.FileInfo
 		if fi, err = os.Stat(path); err == nil {
-			if fi.Mode() & 111 == 0 {
+			if fi.Mode()&111 == 0 {
 				err = fmt.Errorf("%s is not executable", path)
 			}
 		}

@@ -53,8 +53,8 @@ func (h *Handler) Get() (metrics api.Metrics, err error) {
 		return
 	}
 
-	gbTotal := float64(blockSize*totalBlocks)/1073741824 
-	gbFree := float64(blockSize*freeBlocks)/1073741824
+	gbTotal := float64(blockSize*totalBlocks) / 1073741824
+	gbFree := float64(blockSize*freeBlocks) / 1073741824
 
 	now := time.Now().UTC()
 	metadata := map[string]string{"Path": h.path}

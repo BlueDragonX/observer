@@ -10,15 +10,15 @@ import (
 )
 
 type Observer struct {
-	sinks map[string]*Sink
+	sinks   map[string]*Sink
 	sources map[string]*Source
-	pipes map[string]*Pipe
-	stop  chan interface{}
+	pipes   map[string]*Pipe
+	stop    chan interface{}
 }
 
 // Create a new observer with the provided configuration.
 func NewObserver(config *config.Config) (obs *Observer, err error) {
-	sinkNames := make(map[string]interface{}, len(config.Pipes) )
+	sinkNames := make(map[string]interface{}, len(config.Pipes))
 	for _, pipeConfig := range config.Pipes {
 		for _, sinkName := range pipeConfig.Sinks {
 			sinkNames[sinkName] = nil
@@ -26,7 +26,7 @@ func NewObserver(config *config.Config) (obs *Observer, err error) {
 	}
 
 	sinks := make(map[string]*Sink, len(sinkNames))
-	for sinkName, _ := range sinkNames {
+	for sinkName := range sinkNames {
 		if sinkConfig, ok := config.Sinks[sinkName]; ok {
 			var sink *Sink
 			if sink, err = NewSink(sinkName, sinkConfig); err == nil {
@@ -40,7 +40,7 @@ func NewObserver(config *config.Config) (obs *Observer, err error) {
 		}
 	}
 
-	sourceNames := make(map[string]interface{}, len(config.Pipes) )
+	sourceNames := make(map[string]interface{}, len(config.Pipes))
 	for _, pipeConfig := range config.Pipes {
 		for _, sourceName := range pipeConfig.Sources {
 			sourceNames[sourceName] = nil
@@ -48,7 +48,7 @@ func NewObserver(config *config.Config) (obs *Observer, err error) {
 	}
 
 	sources := make(map[string]*Source, len(sourceNames))
-	for sourceName, _ := range sourceNames {
+	for sourceName := range sourceNames {
 		if sourceConfig, ok := config.Sources[sourceName]; ok {
 			var source *Source
 			if source, err = NewSource(sourceName, sourceConfig); err == nil {
@@ -76,7 +76,7 @@ func NewObserver(config *config.Config) (obs *Observer, err error) {
 
 		pipes[pipeName] = NewPipe(
 			pipeName,
-			time.Duration(pipeConfig.Interval) * time.Second,
+			time.Duration(pipeConfig.Interval)*time.Second,
 			pipeSources,
 			pipeSinks,
 			pipeConfig.Metadata,

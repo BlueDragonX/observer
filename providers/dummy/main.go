@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type Handler struct {}
+type Handler struct{}
 
 // Configure the provider.
 func (h *Handler) Configure(config api.Config) error {
