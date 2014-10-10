@@ -1,0 +1,27 @@
+#!/bin/bash
+eval $(go env)
+
+cd "$(dirname "$0")"
+base=$(pwd)
+
+mkdir -p "$base/bin"
+rm -f "$base"/bin/*
+
+die() {
+	echo "$@" >&2
+	exit 1
+}
+
+build() {
+	local path=$1
+	local name=
+	[[ -n $2 ]] && name=$2 || name=$(basename "$path")
+	cd "$base/$path" || die "unable to enter $path"
+	go build -o "$base/bin/$name" || die "unable to build $path"
+	cd "$base"
+}
+
+build observer
+for provider in $(find providers -maxdepth 1 -mindepth 1); do
+	build "$provider" "observer-$(basename "$provider")"
+done
