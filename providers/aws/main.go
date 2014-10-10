@@ -137,7 +137,6 @@ func (h *Handler) Put(metrics api.Metrics) (err error) {
 			Value: metric.Value,
 		}
 		cwMetrics = append(cwMetrics, cwMetric)
-		log.Println(cwMetric)
 	}
 
 	_, err = cw.PutMetricDataNamespace(cwMetrics, h.namespace)
