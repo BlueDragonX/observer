@@ -1,0 +1,45 @@
+defaults:
+  metadata:
+    InstanceId: test
+
+sources:
+  load:
+    provider: load
+    rootfs: /
+  memory:
+    provider: memory
+    rootfs: /
+    swap: false
+  disk-rootfs:
+    provider: disk
+    path: /
+
+sinks:
+  aws:
+    provider: aws
+    region: us-east-1
+    namespace: Observer
+    access-key: LESSSECRETACCESSKEY
+    secret-key: SUPERSECRETSECRETKEY
+
+pipes:
+  load:
+    interval: 60
+    sources:
+    - load
+    sinks:
+    - coreos
+
+  memory:
+    interval: 60
+    sources:
+    - memory
+    sinks:
+    - coreos
+
+  disks:
+    interval: 300
+    sources:
+    - disk-rootfs
+    sinks:
+    - coreos

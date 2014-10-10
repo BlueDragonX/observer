@@ -1,0 +1,36 @@
+sources:
+  load:
+    provider: load
+    rootfs: /
+  memory:
+    provider: memory
+    rootfs: /
+  disk-rootfs:
+    provider: disk
+    path: /
+
+sinks:
+  print:
+    provider: dummy
+
+pipes:
+  load:
+    interval: 60
+    sources:
+    - load
+    sinks:
+    - print
+
+  memory:
+    interval: 60
+    sources:
+    - memory
+    sinks:
+    - print
+
+  disks:
+    interval: 300
+    sources:
+    - disk-rootfs
+    sinks:
+    - print
