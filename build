@@ -17,7 +17,7 @@ build() {
 	local name=
 	[[ -n $2 ]] && name=$2 || name=$(basename "$path")
 	cd "$base/$path" || die "unable to enter $path"
-	go build -o "$base/bin/$name" || die "unable to build $path"
+	go build -o "$base/bin/$name" "$@" || die "unable to build $path"
 	cd "$base"
 }
 
