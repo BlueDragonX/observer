@@ -62,7 +62,7 @@ func (h *Handler) Get() (metrics api.Metrics, err error) {
 	metrics.Add("DiskSpaceFree", gbFree, api.UNIT_GIGABYTES, now, metadata)
 
 	pctUsed := 100 * float64(totalBlocks-freeBlocks) / float64(totalBlocks)
-	metrics.Add("DiskBytesUtilization", pctUsed, api.UNIT_PERCENT, now, metadata)
+	metrics.Add("DiskSpaceUtilization", pctUsed, api.UNIT_PERCENT, now, metadata)
 	return
 }
 
