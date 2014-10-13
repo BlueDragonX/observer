@@ -28,18 +28,18 @@ pipes:
     sources:
     - load
     sinks:
-    - coreos
+    - aws
 
   memory:
     interval: 60
     sources:
     - memory
     sinks:
-    - coreos
+    - aws
 
   disks:
     interval: 300
     sources:
     - disk-rootfs
     sinks:
-    - coreos
+    - aws
