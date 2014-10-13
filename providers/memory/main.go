@@ -95,7 +95,7 @@ func (h *Handler) Get() (metrics api.Metrics, err error) {
 
 	now := time.Now().UTC()
 	addBytes := func(name string, intval int64) {
-		metrics.Add(name, float64(intval), api.UNIT_BYTES, now, nil)
+		metrics.Add(name, float64(intval) / 1048576.0, api.UNIT_MEGABYTES, now, nil)
 	}
 
 	addPct := func(name string, pctval float64) {
