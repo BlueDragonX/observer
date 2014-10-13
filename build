@@ -3,6 +3,7 @@ eval $(go env)
 
 cd "$(dirname "$0")"
 base=$(pwd)
+bopts=("$@")
 
 mkdir -p "$base/bin"
 rm -f "$base"/bin/*
@@ -17,7 +18,8 @@ build() {
 	local name=
 	[[ -n $2 ]] && name=$2 || name=$(basename "$path")
 	cd "$base/$path" || die "unable to enter $path"
-	go build -o "$base/bin/$name" "$@" || die "unable to build $path"
+	go get -d || die "unable to get dependencies"
+	go build -o "$base/bin/$name" "${bopts[@]}" || die "unable to build $path"
 	cd "$base"
 }
 
